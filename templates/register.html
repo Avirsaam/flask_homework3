@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock title %}
+
+{% block content %}  
+<div id="login">
+  <h3 class="text-center text-white pt-5">Регистрация</h3>
+  <div class="container">
+    <div id="login-row" class="row justify-content-center align-items-center">
+      <div id="login-column" class="col-md-6">
+        <div id="login-box" class="col-md-12">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          <form method="POST" action="{{ url_for('register') }}", form id="login-form" class="form">
+            <h3 class="text-center text-info">Регистрация</h3>
+            {{ form.csrf_token }}
+            {% for field in form if field.name != 'csrf_token' %}
+              <div class="form-group">           
+                {{ field.label(class="text-info") }}<br />
+                {{ field(class="form-control") }}
+              {% if field.errors %}
+                <ul class="alert alert-danger">
+                  {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+              </div>
+            {% endfor %}
+            <div class="form-group">              
+              <input type="submit" name="submit" class="btn btn-info btn-md" value="Зарегистрироваться">
+            </div>            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
